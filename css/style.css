@@ -356,7 +356,9 @@ img[data-object-fit="cover"] {
   -o-object-fit: cover;
      object-fit: cover; }
 
-input, select, textarea {
+input,
+select,
+textarea {
   border-radius: 0; }
 
 .visually-hidden,
@@ -1735,7 +1737,12 @@ input[type="checkbox"].visually-hidden {
           justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center; }
+          align-items: center;
+  pointer-events: none; }
+  @media (max-width: 767px) {
+    .footer-nav__bar {
+      pointer-events: auto;
+      cursor: pointer; } }
 
 .footer-nav__bar h2 {
   margin: 0;
@@ -1751,39 +1758,39 @@ input[type="checkbox"].visually-hidden {
       margin-bottom: 0; } }
 
 .footer-nav__toggle {
-  position: relative;
   display: none; }
-  @media (max-width: 767px) {
-    .footer-nav__toggle {
-      display: block;
-      width: 16px;
-      height: 16px;
-      border: 0;
-      background-color: transparent;
-      cursor: pointer; }
-      .footer-nav__toggle--hidden {
-        display: none; }
-      .footer-nav__toggle:focus {
-        outline: 1px solid #00b2ff; }
-      .footer-nav__toggle::before, .footer-nav__toggle::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        margin-left: 0;
-        width: 16px;
-        height: 1px;
-        background-color: #c4c4c4;
-        -webkit-box-shadow: none;
-                box-shadow: none; }
-      .footer-nav__toggle::after {
-        margin-left: 8px;
-        -webkit-transform: translate(-50%, -50%) rotate(-90deg);
-                transform: translate(-50%, -50%) rotate(-90deg); }
-      .footer-nav__toggle:focus::before, .footer-nav__toggle:focus::after {
-        background-color: #1b2d37; } }
 
-.footer-nav__toggle--open::after {
+@media (max-width: 767px) {
+  .footer-nav__bar--js .footer-nav__toggle {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    background-color: transparent;
+    -webkit-transition: 0.2s;
+    transition: 0.2s; }
+    .footer-nav__bar--js .footer-nav__toggle:focus {
+      outline: 1px solid #00b2ff; }
+    .footer-nav__bar--js .footer-nav__toggle::before, .footer-nav__bar--js .footer-nav__toggle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin-left: 0;
+      width: 16px;
+      height: 1px;
+      background-color: #c4c4c4;
+      -webkit-box-shadow: none;
+              box-shadow: none; }
+    .footer-nav__bar--js .footer-nav__toggle::after {
+      margin-left: 8px;
+      -webkit-transform: translate(-50%, -50%) rotate(-90deg);
+              transform: translate(-50%, -50%) rotate(-90deg); }
+    .footer-nav__bar--js .footer-nav__toggle:focus::before, .footer-nav__bar--js .footer-nav__toggle:focus::after {
+      background-color: #1b2d37; } }
+
+.footer-nav--open .footer-nav__toggle::after {
   display: none; }
 
 .footer-nav__links {
@@ -1808,9 +1815,14 @@ input[type="checkbox"].visually-hidden {
               flex-direction: column; } }
   @media (max-width: 767px) {
     .footer-nav__links {
-      margin-top: 28px; }
-      .footer-nav__links--closed {
-        display: none; } }
+      display: none; } }
+
+@media (max-width: 767px) {
+  .footer-nav--open .footer-nav__links {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 28px; } }
 
 .footer-nav__links li {
   width: 245px; }
@@ -1874,7 +1886,12 @@ input[type="checkbox"].visually-hidden {
           justify-content: space-between;
   -webkit-box-align: center;
       -ms-flex-align: center;
-          align-items: center; }
+          align-items: center;
+  pointer-events: none; }
+  @media (max-width: 767px) {
+    .footer-contacts__bar {
+      pointer-events: auto;
+      cursor: pointer; } }
 
 .footer-contacts__bar h2 {
   margin: 0;
@@ -1890,39 +1907,39 @@ input[type="checkbox"].visually-hidden {
       margin-bottom: 0; } }
 
 .footer-contacts__toggle {
-  position: relative;
   display: none; }
-  @media (max-width: 767px) {
-    .footer-contacts__toggle {
-      display: block;
-      width: 16px;
-      height: 16px;
-      border: 0;
-      background-color: transparent;
-      cursor: pointer; }
-      .footer-contacts__toggle--hidden {
-        display: none; }
-      .footer-contacts__toggle:focus {
-        outline: 1px solid #00b2ff; }
-      .footer-contacts__toggle::before, .footer-contacts__toggle::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        margin-left: 0;
-        width: 16px;
-        height: 1px;
-        background-color: #c4c4c4;
-        -webkit-box-shadow: none;
-                box-shadow: none; }
-      .footer-contacts__toggle::after {
-        margin-left: 8px;
-        -webkit-transform: translate(-50%, -50%) rotate(-90deg);
-                transform: translate(-50%, -50%) rotate(-90deg); }
-      .footer-contacts__toggle:focus::before, .footer-contacts__toggle:focus::after {
-        background-color: #1b2d37; } }
 
-.footer-contacts__toggle--open::after {
+@media (max-width: 767px) {
+  .footer-contacts__bar--js .footer-contacts__toggle {
+    position: relative;
+    display: block;
+    width: 16px;
+    height: 16px;
+    border: 0;
+    background-color: transparent;
+    -webkit-transition: 0.2s;
+    transition: 0.2s; }
+    .footer-contacts__bar--js .footer-contacts__toggle:focus {
+      outline: 1px solid #00b2ff; }
+    .footer-contacts__bar--js .footer-contacts__toggle::before, .footer-contacts__bar--js .footer-contacts__toggle::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin-left: 0;
+      width: 16px;
+      height: 1px;
+      background-color: #c4c4c4;
+      -webkit-box-shadow: none;
+              box-shadow: none; }
+    .footer-contacts__bar--js .footer-contacts__toggle::after {
+      margin-left: 8px;
+      -webkit-transform: translate(-50%, -50%) rotate(-90deg);
+              transform: translate(-50%, -50%) rotate(-90deg); }
+    .footer-contacts__bar--js .footer-contacts__toggle:focus::before, .footer-contacts__bar--js .footer-contacts__toggle:focus::after {
+      background-color: #1b2d37; } }
+
+.footer-contacts--open .footer-contacts__toggle::after {
   display: none; }
 
 .footer-contacts__info {
@@ -1935,10 +1952,15 @@ input[type="checkbox"].visually-hidden {
           flex-direction: column; }
   @media (max-width: 767px) {
     .footer-contacts__info {
-      padding-right: 5px;
-      margin-top: 33px; }
-      .footer-contacts__info--closed {
-        display: none; } }
+      display: none; } }
+
+@media (max-width: 767px) {
+  .footer-contacts--open .footer-contacts__info {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding-right: 5px;
+    margin-top: 33px; } }
 
 .footer-contacts__info span {
   font-size: 15px;
@@ -2179,15 +2201,20 @@ input[type="checkbox"].visually-hidden {
   background-color: rgba(255, 255, 255, 0.1);
   border: 0; }
   .popup__field input::-webkit-input-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field input::-moz-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field input:-ms-input-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field input::-ms-input-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field input::placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field input:hover {
     outline: 1px solid rgba(255, 255, 255, 0.5); }
   .popup__field input:focus {
@@ -2205,15 +2232,20 @@ input[type="checkbox"].visually-hidden {
   border: 0;
   resize: none; }
   .popup__field--text textarea::-webkit-input-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field--text textarea::-moz-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field--text textarea:-ms-input-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field--text textarea::-ms-input-placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field--text textarea::placeholder {
-    color: #ffffff; }
+    color: #ffffff;
+    opacity: 1; }
   .popup__field--text textarea:hover {
     outline: 1px solid rgba(255, 255, 255, 0.5); }
   .popup__field--text textarea:focus {

@@ -6,32 +6,39 @@
   var footerNav = footer.querySelector('.footer-nav');
   var footerNavBar = footer.querySelector('.footer-nav__bar');
   var footerNavLinks = footerNav.querySelector('.footer-nav__links');
-  var footerNavBtn = footerNav.querySelector('.footer-nav__toggle');
   var footerContacts = footer.querySelector('.footer-contacts');
   var footerContactsBar = footer.querySelector('.footer-contacts__bar');
   var footerContactsInfo = footerContacts.querySelector('.footer-contacts__info');
-  var footerContactsBtn = footerContacts.querySelector('.footer-contacts__toggle');
 
+  var onNavClick = function () {
+    if (footerContactsBar && footerContacts.classList.contains('footer-contacts--open')) {
+      footerContacts.classList.remove('footer-contacts--open');
+    }
+    footerNav.classList.toggle('footer-nav--open');
+  };
 
-  if (footerNavBar && footerNav && footerNavBtn) {
-    footerNavLinks.classList.add('footer-nav__links--closed');
-    footerNavBtn.classList.remove('footer-nav__toggle--hidden');
+  var onContactsClick = function () {
+    if (footerNavBar && footerNav.classList.contains('footer-nav--open')) {
+      footerNav.classList.remove('footer-nav--open');
+    }
+    footerContacts.classList.toggle('footer-contacts--open');
+  };
 
-    footerNavBtn.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      footerNavBtn.classList.toggle('footer-nav__toggle--open');
-      footerNavLinks.classList.toggle('footer-nav__links--closed');
+  if (footerNavBar && footerNavLinks) {
+    footerNavBar.classList.add('footer-nav__bar--js');
+    footerNav.classList.remove('footer-nav--open');
+
+    footerNavBar.addEventListener('click', function () {
+      onNavClick();
     });
   }
 
-  if (footerContactsBar && footerContactsInfo && footerContactsBtn) {
-    footerContactsInfo.classList.add('footer-contacts__info--closed');
-    footerContactsBtn.classList.remove('footer-contacts__toggle--hidden');
+  if (footerContactsBar && footerContactsInfo) {
+    footerContactsBar.classList.add('footer-contacts__bar--js');
+    footerContacts.classList.remove('footer-contacts--open');
 
-    footerContactsBtn.addEventListener('click', function (evt) {
-      evt.preventDefault();
-      footerContactsBtn.classList.toggle('footer-contacts__toggle--open');
-      footerContactsInfo.classList.toggle('footer-contacts__info--closed');
+    footerContactsBar.addEventListener('click', function () {
+      onContactsClick();
     });
   }
 })();
@@ -41,9 +48,15 @@
 (function () {
   var MIN_NAME_LENGTH = 4;
   var MAX_NAME_LENGTH = 30;
+  var phoneFocusMask = '+7 (';
   var cbPhoneMask = {
-    mask: '+{7}(000)000-00-00'
+    mask: '+{7} (000) 000-00-00'
   };
+
+  var phoneErrorMessage = 'Пример ввода:  +7 (000) 000-00-00';
+  var requiredMessage = 'Это поле обязательно для заполнения';
+  var minLengthMessage = 'Минимальная длина ввода: 4 символа. Введите ещё ';
+  var maxLengthMessage = 'Максимальная длина ввода: 30 символов. Удалите лишние ';
 
   var cbForm = document.querySelector('form');
   var cbPhone = cbForm.querySelector('#phone');
@@ -51,29 +64,38 @@
 
   var onPhoneFocus = function (evt) {
     if (evt.target.value === '') {
-      evt.target.value = '+7 (';
+      evt.target.value = phoneFocusMask;
     }
   };
 
   var onPhoneInput = function (evt) {
     var newMask = new window.IMask(evt.target, cbPhoneMask);
-
-    if (evt.target.validity.patternMismatch) {
-      evt.target.setCustomValidity('Пример ввода:  +7 (000) 000-00-00');
-    } else {
-      evt.target.setCustomValidity('');
-    }
     return newMask;
   };
+
+  var onPhoneValidityCheck = function (evt) {
+    if (evt.target.validity.valueMissing) {
+      evt.target.setCustomValidity(requiredMessage);
+      return false;
+    }
+    else if (evt.target.validity.patternMismatch) {
+      evt.target.setCustomValidity(phoneErrorMessage);
+      return false;
+    }
+    else {
+      evt.target.setCustomValidity('');
+      return true;
+    }
+  }
 
   var onNameInput = function (evt) {
     var valueLength = evt.target.value.length;
     if (valueLength < 1) {
-      evt.target.setCustomValidity('Это поле обязательно для заполнения');
+      evt.target.setCustomValidity(requiredMessage);
     } else if (valueLength < MIN_NAME_LENGTH) {
-      evt.target.setCustomValidity('Минимальная длина ввода: 4 символов. Введите ещё ' + (MIN_NAME_LENGTH - valueLength) + ' симв.');
+      evt.target.setCustomValidity(minLengthMessage + (MIN_NAME_LENGTH - valueLength) + ' симв.');
     } else if (valueLength > MAX_NAME_LENGTH) {
-      evt.target.setCustomValidity('Максимальная длина ввода: 30 символов. Удалите лишние ' + (valueLength - MAX_NAME_LENGTH) + ' симв.');
+      evt.target.setCustomValidity(maxLengthMessage + (valueLength - MAX_NAME_LENGTH) + ' симв.');
     } else {
       evt.target.setCustomValidity('');
     }
@@ -81,7 +103,8 @@
 
   if (cbForm) {
     cbPhone.addEventListener('focus', onPhoneFocus);
-    cbPhone.addEventListener('input', onPhoneInput);
+    cbPhone.addEventListener('keydown', onPhoneInput);
+    cbPhone.addEventListener('keyup', onPhoneValidityCheck);
     cbName.addEventListener('input', onNameInput);
   }
 
@@ -89,7 +112,8 @@
     cbPhoneMask: cbPhoneMask,
     onPhoneFocus: onPhoneFocus,
     onPhoneInput: onPhoneInput,
-    onNameInput: onNameInput
+    onNameInput: onNameInput,
+    onPhoneValidityCheck: onPhoneValidityCheck
   };
 
 })();
@@ -107,10 +131,20 @@
   var phoneField = popup.querySelector('#popup-phone');
   var commentField = popup.querySelector('#popup-comment');
 
-  var isStorageSupport = true;
+  var storageSupport = true;
   var nameStored = '';
   var phoneStored = '';
   var commentStored = '';
+
+  if (popup) {
+    try {
+      nameStored = localStorage.getItem('name');
+      phoneStored = localStorage.getItem('phone');
+      commentStored = localStorage.getItem('comment');
+    } catch (err) {
+      storageSupport = false;
+    }
+  }
 
   var onPopupClose = function () {
     popup.classList.add('popup--hidden');
@@ -122,7 +156,7 @@
     phoneField.removeEventListener('input', window.form.onPhoneInput);
     nameField.removeEventListener('input', window.form.onNameInput);
     popupForm.removeEventListener('submit', onFormSubmit);
-
+    popupForm.reset();
   };
 
   var onEscPress = function (evt) {
@@ -138,28 +172,28 @@
   };
 
   var openPopup = function () {
-    nameField.value = nameStored;
-    phoneField.value = phoneStored;
-    commentField.value = commentStored;
+    if (storageSupport) {
+      if (nameStored) {
+        nameField.value = nameStored;
+      }
+
+      if (phoneStored) {
+        phoneField.value = phoneStored;
+      }
+
+      if (commentStored) {
+        commentField.value = commentStored;
+      }
+    }
   };
 
   var onFormSubmit = function () {
-    if (isStorageSupport) {
+    if (storageSupport) {
       localStorage.setItem('name', nameField.value);
       localStorage.setItem('phone', phoneField.value);
       localStorage.setItem('comment', commentField.value);
     }
   };
-
-  if (popup) {
-    try {
-      nameStored = localStorage.getItem('name');
-      phoneStored = localStorage.getItem('phone');
-      commentStored = localStorage.getItem('comment');
-    } catch (err) {
-      isStorageSupport = false;
-    }
-  }
 
   if (navCbBtn) {
     navCbBtn.addEventListener('click', function (evt) {
@@ -173,7 +207,8 @@
       nameField.focus();
       openPopup();
       phoneField.addEventListener('focus', window.form.onPhoneFocus);
-      phoneField.addEventListener('input', window.form.onPhoneInput);
+      phoneField.addEventListener('keydown', window.form.onPhoneInput);
+      phoneField.addEventListener('keyup', window.form.onPhoneValidityCheck);
       nameField.addEventListener('input', window.form.onNameInput);
       popupForm.addEventListener('submit', onFormSubmit);
     });
